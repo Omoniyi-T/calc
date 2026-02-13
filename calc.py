@@ -1,9 +1,9 @@
 import tkinter as tk
-
+q = ""
 prob = []
-
+l = ["x","-", "+","÷",".","%"]
 def update_bar(p):
-    l = ["x","-", "+","÷",".","%"]
+    global q
     if p in l:
         print(f"p = {p}")
         try:
@@ -14,19 +14,25 @@ def update_bar(p):
         except IndexError:
             p = p
         
-    q = ""
+    
     prob.append(p)
-    print(prob)
+    que = ""
+    #print(prob)
     for i in prob:
-        q += str(i)
+        que += str(i)
+    q = que
     print(q)
-    print(len(q))
+    print("length:", len(q))
+    print(prob)
     display_bar.config(text=f"{q}\n")
 
-def c():
+def c(eq=None):
+    global q
     prob.clear()
     print("Clear")
-    display_bar.config(text="\n")
+    q = ""
+    if eq == None:
+        display_bar.config(text="\n")
 
 def remove():
     length = len(prob)
@@ -38,18 +44,45 @@ def remove():
     q= ""
     for i in prob:
         q += str(i)
-    print(q)
-    print(len(q))
+    #print(q)
+    #print(len(q))
     display_bar.config(text=f"{q}\n")
 
-def sum(s):
-    right = ""
-    left = ""
-    op = ""
-    for i in prob:
-        right =+ 
-    print("sum")
+def change(num):
+    print("changing")
+    print(num, type(num))
+    t = type(num)
+    if t == float:
+        print("float")
+        if num.is_integer():
+            ans = int(num)
+        else:
+            ans = num
+    else:
+        ans = num
+    return ans
 
+def sum(s):
+    global q
+    print(prob)
+    p = ""
+    for i in prob:
+        if i == "x":
+            p += "*"
+        elif i == "÷":
+            p += "/"
+        else:
+            p += str(i)
+    print(p)
+    value = eval(p)
+    print(type(value))
+    ans = change(value)
+    print(ans)
+    display_bar.config(text=f"{q}\n{ans}")
+    
+    c(True)
+    
+    
 root = tk.Tk()
 root.title("Calculator")
 
