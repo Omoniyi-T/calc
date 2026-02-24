@@ -2,7 +2,7 @@ import tkinter as tk
 q = ""
 prob = []
 l = ["x","-", "+","÷",".","%"]
-def update_bar(p):
+def kill(p):
     global q
     if p in l:
         print(f"p = {p}")
@@ -13,11 +13,11 @@ def update_bar(p):
                 return
         except IndexError:
             p = p
-        
-    
     prob.append(p)
+    
+def update_bar(p):
+    kill(p)
     que = ""
-    #print(prob)
     for i in prob:
         que += str(i)
     q = que
@@ -81,7 +81,16 @@ def sum(s):
     display_bar.config(text=f"{q}\n{ans}")
     
     c(True)
-    
+
+def per():
+    kill("%")
+    update_bar("%")
+    print("prob",prob[-1])
+    if prob[-1] != "%":
+        raise Exception("P")
+    else:
+        
+        print("here")
     
 root = tk.Tk()
 root.title("Calculator")
@@ -101,7 +110,7 @@ display_bar.grid(row=1, column=0, columnspan=4, sticky="we", padx=10, pady=10)
 clear = tk.Button(text="C", width=5, height=2,command=lambda:c())
 clear.grid(row=2, column=0, padx=10, pady=10)
 
-percent = tk.Button(text="%", width=5, height=2,command=lambda:update_bar("%"))
+percent = tk.Button(text="%", width=5, height=2,command=lambda:per())
 percent.grid(row=2, column=2, padx=10, pady=10)
 
 back = tk.Button(text="⌫", width=5, height=2,command=lambda:remove())
