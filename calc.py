@@ -3,6 +3,7 @@ import tkinter as tk
 q = ""
 prob = []
 l = ["x","-", "+","÷",".","%"]
+history = {}
 
 def kill(p):
     global q
@@ -64,24 +65,30 @@ def change(num):
         ans = num
     return ans
 
-def ans():
-    global q
-    print(prob)
-    p = ""
-    for i in prob:
+def sub_op(ls):
+    p =""
+    for i in ls:
         if i == "x":
             p += "*"
         elif i == "÷":
             p += "/"
         else:
             p += str(i)
+    return p
+
+def ans():
+    print(prob)
+    p= sub_op(prob)
+    q = ""
+    for i in prob:
+        q += str(i)
     print(p)
     value = eval(p)
     print(type(value))
     ans = change(value)
     print(ans)
+    print(f"q is ....{q}")
     display_bar.config(text=f"{q}\n{ans}")
-    
     c(True)
     
 #changing modes
@@ -94,11 +101,49 @@ def hexadecimal():
     
 #calculating bin and hex
 def get_bin():
-    global q
+    q=""
+    op = []
+    print(op)
+    for i in prob:
+        op.append(True) if i in l else(op.append (False))
+        q+= str(i)
     print(prob, "to convert to bin")
     print(q)
+    print(op)
+    qu = sub_op(prob)
+    if True in op:
+        ans = eval(qu)
+        print(f"ans == {ans}")
+        result = bin(int(ans))
+    else:
+        result = bin(int(q))
+        
+    b = str(result)[2:]
+    c(True)
+    display_bar.config(text=f"{q}\n{b}")
     
-#def get_hex():
+def get_hex():
+    q=""
+    op = []
+    print(op)
+    for i in prob:
+        op.append(True) if i in l else(op.append (False))
+        q+= str(i)
+    print(prob, "to convert to bin")
+    print(q)
+    print(op)
+    qu = sub_op(prob)
+    if True in op:
+        ans = eval(qu)
+        print(f"ans == {ans}")
+        result = hex(int(ans))
+    else:
+        result = hex(int(q))
+        
+    b = str(result)[2:]
+    print(result, b)
+    c(True)
+    display_bar.config(text=f"{q}\n{b}")
     
 def mode(mode):
     for item in mode:
@@ -194,8 +239,8 @@ hex_mode = [
     {"text": "-", "row": 7, "col": 3, "val": "-", "func":"update"},
 ]
 
-label = tk.Label(text="Calculator")
-label.grid(row=0, column =1)
+#label = tk.Label(text="Calculator")
+#label.grid(row=0, column =1)
 
 # Create the display bar with a border/relief to look like a bar
 display_bar = tk.Label(root, relief="sunken", width=10,height=2, justify="right",anchor="e")
