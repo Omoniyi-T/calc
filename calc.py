@@ -98,13 +98,15 @@ def history(o):
         change_geo(False)
     history_bar = tk.Label(root, relief="groove", width=15,height=2,anchor="nw", bd=5)
     history_bar.grid(row=0, column=4, rowspan=40, sticky="nsew", padx=10, pady=10)
-    #close = tk.Button(history_bar, relief="ridge", height=0, width=2, text="x", command=lambda:change_geo(False))
-    #close.place(in_=history_bar, relx=1.0, y=0, anchor="ne")
     print(hist)
-    display = "\n".join([f"Q:{k}\nAns: {v}\n" for k,v in hist.items()])
-    for h in hist:
-        print(h)
-    history_bar.config(text=display)
+    def refresh():
+        if ishistoryopen:
+            display = "\n".join([f"Q:{k}\nAns: {v}\n" for k,v in hist.items()])
+            history_bar.config(text=display)
+            # Notice: no parentheses after 'refresh' here
+            root.after(100, refresh) 
+
+    refresh() 
 
 def kill(p):
     global q
@@ -280,6 +282,7 @@ line.grid(row=2, column=0, columnspan=4, sticky="ew", padx=5, pady=5)
 
 hst = tk.Button(root, text="History", width=0, height=0, command=lambda:history(ishistoryopen))
 hst.grid(row=3, column=1, columnspan=2, sticky="ew", padx=10, pady=10)
+
 
 mode(number_mode)
 
